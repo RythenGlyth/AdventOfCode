@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	lines, err := readLines("2020/1/input.txt")
+	lines, err := readLines("2020/01/input.txt")
 	if err != nil {
 		fmt.Println(err)
 	}

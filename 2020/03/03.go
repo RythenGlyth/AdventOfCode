@@ -11,7 +11,7 @@ func main() {
 }
 
 func getTreeCount(xJump int, yJump int) int {
-	file, err := os.Open("2020/3/input.txt")
+	file, err := os.Open("2020/03/input.txt")
 	if err != nil {
 		fmt.Println(err)
 		return 0
