@@ -16,7 +16,7 @@ I tried using different programming languages:
 05. PHP
 06. Javascript
 07. Python
-08. 
+08. Ruby
 09. 
 10. 
 11. 
