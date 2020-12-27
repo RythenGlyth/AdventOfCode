@@ -17,7 +17,7 @@ I tried using different programming languages:
 06. Javascript
 07. Python
 08. Ruby
-09. 
+09. D
 10. 
 11. 
 12. 
