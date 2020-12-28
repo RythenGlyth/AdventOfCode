@@ -1,0 +1,32 @@
+func main() {
+    var input = File.read("2020/10/input.txt").split("\n").map(func(a) {return a.number()}).sort();
+    input.push(0);
+    var diffs = calcDiffs(input, -1);
+    System.print(diffs);
+    System.print(diffs[0] * (diffs[1] + 1));
+}
+
+func calcDiffs(input, currInd) {
+    var length = input.count-1;
+    var j = currInd+1;
+    var diffs1 = 0;
+    var diffs3 = 0;
+    if(j < length) {
+        if(input[j] - input[currInd] == 1) diffs1 += 1;
+        if(input[j] - input[currInd] == 3) diffs3 += 1;
+        var diffs = calcDiffs(input, j);
+        diffs1 += diffs[0];
+        diffs3 += diffs[1];
+        j+=1;
+    }
+    return [diffs1, diffs3];
+}
+
+func calcAnd(f1, f2) {
+    if(f1()) {
+        if(f2()) {
+            return true;
+        }
+    }
+    return false;
+}

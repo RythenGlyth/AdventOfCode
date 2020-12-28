@@ -1,0 +1,26 @@
+func main() {
+    var input = File.read("2020/10/input.txt").split("\n").map(func(a) {return a.number()}).sort();
+    input.push(0);
+    var length = input.count-1;
+    var step = [1];
+    for(var i in -1...length-1) {
+        var j = i+1;
+        while(calcAnd({return (j < length)}, {return (input[j] - input[i] <= 3)})) {
+            step[j] = (step.count > j ? step[j] : 0) + step[i];
+
+            j+=1;
+        }
+    }
+    System.print(step[length-1] / 2);
+}
+
+func calcAnd(f1, f2) {
+    //System.print(f1());
+    if(f1()) {
+        //System.print(f2());
+        if(f2()) {
+            return true;
+        }
+    }
+    return false;
+}
