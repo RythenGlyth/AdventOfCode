@@ -4,3 +4,4 @@ input.txt
 *.exe
 .vscode
 *.obj
+*.out

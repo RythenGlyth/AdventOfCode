@@ -49,15 +49,19 @@ std::string areaToString(area_t area) {
 
     return oss.str();
 }
-bool isOccupied(area_t area, uint16_t x, uint16_t y) {
+bool isOccupied(area_t area, uint64_t x, uint64_t y) {
     return x >= 0 && x < area.size() && y >= 0 && y < area[x].length() && area[x][y] == '#';
 }
 
-bool isAdjacentOccupied(area_t area, uint16_t x, uint16_t y, std::pair<int, int> adjacentType) {
+/*bool isAdjacentOccupied(area_t area, uint16_t x, uint16_t y, std::pair<int, int> adjacentType) {
     return isOccupied(area, x + adjacentType.first, y + adjacentType.second);
+}*/
+
+bool isAdjacentOccupied(area_t area, uint64_t  x, uint64_t  y, uint64_t  offsetX, uint64_t  offsetY) {
+    return isOccupied(area, x + offsetX, y + offsetY);
 }
 
-bool hasNoAdjacentsOccupied(area_t area, uint16_t x, uint16_t y) {
+/*bool hasNoAdjacentsOccupied(area_t area, uint16_t x, uint16_t y) {
     uint16_t amount = 0;
     for(std::pair<int, int> adjacentType : adjacentTypes) {
         if(isAdjacentOccupied(area, x, y, adjacentType)) return false;
@@ -73,11 +77,23 @@ bool hasAdjacentsOccupied(area_t area, uint16_t x, uint16_t y, uint16_t amountAd
             cout << x << "," << y << ", " << "(" << adjacentType.first << "," << adjacentType.second << ")" << ": " << area[x + adjacentType.first][y + adjacentType.second] << "\n";
         } else {
             cout << x << "," << y << ", " << "(" << adjacentType.first << "," << adjacentType.second << ")" << ": " << "a\n";
-        }*/
-        if(isAdjacentOccupied(area, x, y, adjacentType)) amount += 1;
-        if(amount >= amountAdjacentsOccupied) return true;
+        }*//*
+        amount += isAdjacentOccupied(area, x, y, adjacentType);
     }
-    return false;
+    return amount >= amountAdjacentsOccupied;
+}*/
+
+uint64_t  countAdjacentsOccupied(area_t area, uint64_t x, uint64_t y) {
+    uint64_t  amount = 0;
+    amount += isAdjacentOccupied(area, x, y,  0,  1);
+    amount += isAdjacentOccupied(area, x, y,  1,  1);
+    amount += isAdjacentOccupied(area, x, y,  1,  0);
+    amount += isAdjacentOccupied(area, x, y,  1, -1);
+    amount += isAdjacentOccupied(area, x, y,  0, -1);
+    amount += isAdjacentOccupied(area, x, y, -1, -1);
+    amount += isAdjacentOccupied(area, x, y, -1,  0);
+    amount += isAdjacentOccupied(area, x, y, -1,  1);
+    return amount;
 }
 
 
@@ -88,15 +104,15 @@ int main() {
     do {
         area = newArea;
         for(int i = 0; i < newArea.size(); i++) {
-            for(int j = 0; j < newArea[i].length(); j++) {
-                if(area[i][j] == 'L') {
-                    if(hasNoAdjacentsOccupied(area, i, j)) newArea[i][j] = '#';
-                } else if(area[i][j] == '#') {
-                    if(hasAdjacentsOccupied(area, i, j, 4)) newArea[i][j] = 'L';
+            for(int j = 0; j < newArea.front().length(); j++) {
+                if(area[i][j] == 'L' && countAdjacentsOccupied(area, i, j) == 0) {
+                    /*if(hasNoAdjacentsOccupied(area, i, j))*/ newArea[i][j] = '#';
+                } else if(area[i][j] == '#' && countAdjacentsOccupied(area, i, j) >= 4) {
+                    /*if(hasAdjacentsOccupied(area, i, j, 4))*/ newArea[i][j] = 'L';
                 }
             }
         }
-        cout << areaToString(newArea) << "\n";
+        //cout << areaToString(newArea) << "\n";
     } while(area != newArea);
 
     uint64_t occupiedAmount = 0;
