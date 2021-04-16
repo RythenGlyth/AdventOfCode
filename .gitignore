@@ -5,3 +5,4 @@ input.txt
 .vscode
 *.obj
 *.out
+*.class
